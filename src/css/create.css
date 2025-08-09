@@ -1,0 +1,22 @@
+.todo-create {
+    margin-top: 80px;
+}
+
+input {
+    width: 350px;
+    height: 35px;
+    border: none;
+    border-radius: 10px;
+    margin-right: 10px;
+    outline: none;
+}
+
+button {
+    width: 100px;
+    height: 35px;
+    border: none;
+    border-radius: 10px;
+    background-color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
