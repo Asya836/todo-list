@@ -21,26 +21,54 @@ function ToDo({ todoProps }: todoProps) {
     const [newTodo, setNewTodo] = useState<string>(description)
 
     const handleDeleteTodo = () => {
-        dispatch(deleteTodo(id))
+        const confirmed = window.confirm("Silmek istediğinize emin misiniz?");
+        if (confirmed) {
+            dispatch(deleteTodo(id));
+        }
     }
 
     const handleUpdateTodo = () => {
-        const payload: todoType = {
-            id: id,
-            description: newTodo
+        if (newTodo.trim().length === 0) {
+            alert("Lütfen boş bırakmayınız!")
+        } else {
+            const payload: todoType = {
+                id: id,
+                description: newTodo
+            }
+            dispatch(updateTodo(payload))
         }
-        dispatch(updateTodo(payload))
         setEditable(false)
     }
 
     return (
         <div className='list-container'>
-            {editable ? <input type='text' value={newTodo} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)} /> :
-                <div className='list'>{description}</div>}
+            {editable ? (
+                <input
+                    type='text'
+                    value={newTodo}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
+                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                        if (e.key === 'Enter') {
+                            handleUpdateTodo();
+                        }
+                    }}
+                />
+            ) : (
+                <div className='list'>{description}</div>
+            )}
             <div className='list-item'>
-                <MdDelete onClick={handleDeleteTodo} />
-                {editable ? <FaCheck onClick={handleUpdateTodo} /> : <HiPencilAlt onClick={() => setEditable(true)} />}
-
+                <span title="Sil">
+                    <MdDelete onClick={handleDeleteTodo} />
+                </span>
+                {editable ? (
+                    <span title="Kaydet">
+                        <FaCheck onClick={handleUpdateTodo} />
+                    </span>
+                ) : (
+                    <span title="Düzenle">
+                        <HiPencilAlt onClick={() => setEditable(true)} />
+                    </span>
+                )}
             </div>
         </div>
     )

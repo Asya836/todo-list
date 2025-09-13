@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import '../css/create.css'
 import { useDispatch } from 'react-redux'
-import { toast } from 'react-toastify';
 import { createTodo } from '../redux/todoSlice';
 import type { todoType } from '../types/Types';
 
@@ -27,8 +26,18 @@ function ToDoCreate() {
 
     return (
         <div className='todo-create'>
-            <input value={newtodo} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewtodo(e.target.value)} type='text' placeholder='To Do Ekle' />
-            <button onClick={handleCreateTodo}>OLUŞTUR</button>
+            <input
+                value={newtodo}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewtodo(e.target.value)}
+                type='text'
+                placeholder='To Do Ekle'
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        handleCreateTodo();
+                    }
+                }}
+            />
+            <button onClick={handleCreateTodo} >OLUŞTUR</button>
         </div>
     )
 }
